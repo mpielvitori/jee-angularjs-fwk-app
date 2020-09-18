@@ -1,4 +1,5 @@
-# App
+# JavaEE 7 - AngularJS - JBoss 7
+
 ### Build de aplicación
 En la raiz del proyecto, ejecutar la siguiente sentencia:
 ```sh
@@ -21,7 +22,7 @@ $ sh jboss-cli.sh --connect --properties=<project.path>/App/jboss_scripts/<stage
 
   -- Configurar la variable de entorno JBOSS_HOME apuntando a la ruta donde se encuentra el JBoss EAP
 ```sh
-$ export JBOSS_HOME=/C/Appweb/jboss-eap-7.0
+$ export JBOSS_HOME=/<YOUR_JBOSS_HOME_PATH>/jboss-eap-7.0
 ```
   -- Ejecutar maven con el comando verify
 ```sh
