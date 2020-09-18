@@ -1,0 +1,102 @@
+<div class="form-horizontal">
+    <h3>Crear nuevo Socio</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#!/Socios/new"><span class="glyphicon glyphicon-plus-sign"></span> Crear</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Búsqueda de Socios</h3>
+    <form id="SocioSearch" class="form-horizontal">
+        
+
+    <div class="form-group">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div class="col-sm-10">
+            <input id="nombre" name="nombre" class="form-control" type="text" ng-model="search.nombre" placeholder="Ingrese el Nombre del socio"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="tipo" class="col-sm-2 control-label">Tipo</label>
+        <div class="col-sm-3">
+            <select class="form-control" id="tipo" name="tipo" ng-model="search.tipo" placeholder="Ingrese el Tipo de Socio" ng-options="p for p in tipos"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="plan" class="col-sm-2 control-label">Plan</label>
+        <div class="col-sm-2">
+            <select class="form-control" id="plan" name="plan" ng-model="search.plan" placeholder="Ingrese el Plan del Socio" ng-options="p for p in planes"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="filial" class="col-sm-2 control-label">Filial</label>
+        <div class="col-sm-4">
+            <select class="form-control" id="filial" name="filial" ng-model="search.filial" placeholder="Ingrese la Filial del Socio" ng-options="p for p in filiales"/>
+        </div>
+    </div>
+
+    <div class="form-group" >
+        <label for="documento" class="col-sm-2 control-label">Documento</label>
+        <div class="col-sm-3">
+            <input id="documento" name="documento" class="form-control text-right" type="text" ng-model="search.documento" placeholder="########"></input>
+        </div>
+        <div class="has-warning">
+          <label class="control-label">Búsqueda exacta</label>
+        </div>
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Buscar</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+        <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Nacimiento</th>
+                    <th>Filial</th>
+                    <th>Alta</th>
+                    <th>Plan</th>
+                    <th>Tipo</th>
+                    <th>Baja</th>
+                    <th>Documento</th>
+                </tr>
+            </thead>
+            <tbody id="search-results-body">
+                <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.nombre}}</a></td>
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.nacimiento| date:'mediumDate'}}</a></td>
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.filial}}</a></td>
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.alta| date:'mediumDate'}}</a></td>
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.plan}}</a></td>
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.tipo}}</a></td>
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.baja| date:'mediumDate'}}</a></td>
+                    <td><a href="#!/Socios/edit/{{result.id}}">{{result.documento}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">«</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">»</a>
+        </li>
+    </ul>
+
+</div>

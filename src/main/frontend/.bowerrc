@@ -1,0 +1,3 @@
+{
+  "directory": "${project.build.directory}/${project.build.finalName}/bower_components"
+}

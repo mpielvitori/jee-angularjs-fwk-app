@@ -1,0 +1,17 @@
+{
+  "name": "angular-appfwk",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular": "=1.6.1",
+    "angular-cookies": "=1.6.1",
+    "angular-messages": "=1.6.1",
+    "angular-aria": "=1.6.1",
+    "angular-resource": "=1.6.1",
+    "angular-route": "=1.6.1",
+    "angular-sanitize": "=1.6.1",
+    "angular-i18n": "=1.6.1",
+    "angular-bootstrap": "=2.5.0",
+    "bootstrap": "=3.3.7"
+  },
+  "moduleName": "App"
+}

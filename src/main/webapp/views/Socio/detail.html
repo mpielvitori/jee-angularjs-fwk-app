@@ -1,0 +1,97 @@
+<header ng-switch on="$location.path().indexOf('/Socios/new') > -1">
+    <h3 ng-switch-when="true">Crear nuevo Socio</h3>
+    <h3 ng-switch-when="false">Modificar Socio</h3>
+</header>
+<form id="SocioForm" name="SocioForm" class="form-horizontal" role="form">
+    
+
+    <div class="form-group" ng-class="{'has-error': SocioForm.nombre.$invalid && SocioForm.nombre.$touched}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" required class="form-control" ng-model="socio.nombre" placeholder="Ingrese el Nombre del Socio"></input>
+            <span class="help-block error" ng-show="SocioForm.nombre.$error.required">requerido</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': SocioForm.nacimiento.$invalid && SocioForm.nacimiento.$touched}">
+      <label for="nacimiento" class="col-sm-2 control-label">Nacimiento</label>
+      <div class="col-md-3" id="nacimientoControls">
+        <p class="input-group">
+          <input id="nacimiento" name="nacimiento" type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model=socio.nacimiento is-open="nacimientoIsOpen" placeholder="dd-MM-yyyy" datepicker-options="dateOptions" ng-required="true" clear-text="Limpiar" current-text="Hoy" close-text="Cerrar" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="nacimientoIsOpen=!nacimientoIsOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>          
+        </p>
+        <span class="help-block error" ng-show="SocioForm.nacimiento.$error.required">requerido</span> 
+        <span class="help-block error" ng-show="SocioForm.nacimiento.$error.dateFormat">El formato es correcto es "dd-MM-yyyy"</span>
+      </div> 
+   </div>      
+
+    <div class="form-group" ng-class="{'has-error': SocioForm.documento.$invalid && SocioForm.documento.$touched}">
+        <label for="documento" class="col-sm-2 control-label">Documento</label>
+        <div id="documentoControls" class="col-sm-3">
+            <input id="documento" name="documento" type="text" required class="form-control text-right" ng-model="socio.documento" placeholder="########"></input>
+            <span class="help-block error" ng-show="SocioForm.documento.$error.required">requerido</span> 
+        </div>
+    </div>
+          
+    <div class="form-group" ng-class="{'has-error': SocioForm.tipo.$invalid && SocioForm.tipo.$touched}">
+        <label for="tipo" class="col-sm-2 control-label">Tipo</label>
+        <div id="tipoControls" class="col-sm-3">
+            <select class="form-control" required id="tipo" name="tipo" ng-model="socio.tipo" placeholder="Ingrese el Tipo de Socio" ng-options="p for p in tipos"/>
+            <span class="help-block error" ng-show="SocioForm.tipo.$error.required">requerido</span> 
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': SocioForm.plan.$invalid && SocioForm.plan.$touched}">
+        <label for="plan" class="col-sm-2 control-label">Plan</label>
+        <div id="planControls" class="col-sm-2">
+            <select class="form-control" required id="plan" name="plan" ng-model="socio.plan" placeholder="Ingrese el Plan del Socio" ng-options="p for p in planes"/>
+            <span class="help-block error" ng-show="SocioForm.plan.$error.required">requerido</span> 
+        </div>
+    </div>    
+              
+    <div class="form-group" ng-class="{'has-error': SocioForm.filial.$invalid && SocioForm.filial.$touched}">
+        <label for="filial" class="col-sm-2 control-label">Filial</label>
+        <div id="filialControls" class="col-sm-4">
+            <select class="form-control" required id="filial" name="filial" ng-model="socio.filial" placeholder="Ingrese la Filial del Socio" ng-options="p for p in filiales"/>
+            <span class="help-block error" ng-show="SocioForm.filial.$error.required">requerido</span> 
+        </div>
+    </div>
+
+    <div class="form-group">
+      <div ng-class="{'has-error': SocioForm.alta.$invalid && SocioForm.alta.$touched}">
+		  <label for="alta" class="col-sm-2 control-label">Alta</label>
+	      <div class="col-md-3" id="altaControls">
+	        <p class="input-group">
+	          <input id="alta" name="alta" ng-model="socio.alta" placeholder="dd-MM-yyyy" type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" is-open="altaIsOpen" datepicker-options="dateOptions" ng-required="true" clear-text="Limpiar" current-text="Hoy" close-text="Cerrar" />
+	          <span class="input-group-btn">
+	            <button type="button" class="btn btn-default" ng-click="altaIsOpen=!altaIsOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+	          </span>
+	        </p>                 
+	        <span class="help-block error" ng-show="SocioForm.alta.$error.required">requerido</span> 
+	        <span class="help-block error" ng-show="SocioForm.alta.$error.dateFormat">El formato es correcto es "dd-MM-yyyy"</span>
+	   	  </div>
+   	  </div>
+   	  <div ng-class="{'has-error': SocioForm.baja.$invalid && SocioForm.baja.$touched}">
+		  <label for="baja" class="col-sm-2 control-label">Baja</label>
+	      <div class="col-md-3" id="bajaControls">
+	        <p class="input-group">
+	          <input id="baja" name="baja" ng-model="socio.baja" placeholder="dd-MM-yyyy" type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" is-open="bajaIsOpen" datepicker-options="dateOptions" clear-text="Limpiar" current-text="Hoy" close-text="Cerrar" />
+	          <span class="input-group-btn">
+	            <button type="button" class="btn btn-default" ng-click="bajaIsOpen=!bajaIsOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+	          </span>
+	        </p>               
+	        <span class="help-block error" ng-show="SocioForm.baja.$error.dateFormat">El formato es correcto es "dd-MM-yyyy"</span>
+	      </div>  
+      </div> 	  
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveSocio" name="saveSocio" class="btn btn-primary" ng-disabled="isClean()" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Guardar</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button>
+            <button id="deleteSocio" name="deleteSocio" class="btn btn-danger" ng-show="socio.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+        </div>
+    </div>
+</form>

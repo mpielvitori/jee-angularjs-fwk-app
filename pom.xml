@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ar.com.app</groupId>
+  <artifactId>no-framework</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <deltaspike.version>1.7.2</deltaspike.version>
+	<jboss.eap.version>7.0.5.GA</jboss.eap.version>
+	<!-- propiedad para graphene -->
+	<graphene.browser>htmlUnit</graphene.browser>
+	<!-- fin de propiedad para graphene -->
+  </properties>
+
+  <dependencies>
+    <dependency>
+        <groupId>org.jboss.ejb3</groupId>
+        <artifactId>jboss-ejb3-ext-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Logging -->
+	<dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+	   <scope>provided</scope>
+   	</dependency>
+
+	<!-- Apache DeltaSpike -->
+	<dependency>
+	    <groupId>org.apache.deltaspike.core</groupId>
+	    <artifactId>deltaspike-core-api</artifactId>
+	    <scope>compile</scope>
+	</dependency>
+	<dependency>
+	    <groupId>org.apache.deltaspike.core</groupId>
+	    <artifactId>deltaspike-core-impl</artifactId>
+	    <scope>runtime</scope>
+	</dependency>
+
+	<!-- JUnit -->
+	<dependency>
+	  <groupId>junit</groupId>
+	  <artifactId>junit</artifactId>
+	  <scope>test</scope>
+	</dependency>
+	<!-- Mockito -->
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-core</artifactId>
+		<version>2.2.5</version>
+		<scope>test</scope>
+	</dependency>
+	<!-- BeanValidation Test -->
+	<dependency>
+	    <groupId>javax.validation</groupId>
+	    <artifactId>validation-api</artifactId>
+	    <scope>test</scope>
+	</dependency>
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-validator</artifactId>
+	    <scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.jboss.resteasy</groupId>
+		<artifactId>resteasy-jaxrs</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<!-- Dependencias para Arquillian -->
+	 <dependency>
+        <groupId>org.jboss.arquillian.junit</groupId>
+        <artifactId>arquillian-junit-container</artifactId>
+        <scope>test</scope>
+    </dependency>
+	<dependency>
+		<groupId>org.wildfly.arquillian</groupId>
+		<artifactId>wildfly-arquillian-container-managed</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.jboss.arquillian.protocol</groupId>
+		<artifactId>arquillian-protocol-servlet</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<!-- Fin de dependencias para Arquillian -->
+	<!-- Dependencias para Graphene -->
+	<dependency>
+		<groupId>org.jboss.arquillian.graphene</groupId>
+		<artifactId>graphene-webdriver</artifactId>
+		<version>2.1.0.Final</version>
+		<type>pom</type>
+		<scope>test</scope>
+	</dependency>
+	<!-- Fin de dependencias para Graphene -->
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>7.0</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.deltaspike.distribution</groupId>
+          <artifactId>distributions-bom</artifactId>
+          <version>${deltaspike.version}</version>
+          <type>pom</type>
+          <scope>import</scope>
+      </dependency>
+	  <dependency>
+		<groupId>org.jboss.bom</groupId>
+		<artifactId>eap-runtime-artifacts</artifactId>
+		<version>${jboss.eap.version}</version>
+		<type>pom</type>
+		<scope>import</scope>
+	  </dependency>
+	  <dependency>
+		<groupId>org.jboss.bom</groupId>
+		<artifactId>jboss-eap-javaee7-with-tools</artifactId>
+		<version>${jboss.eap.version}</version>
+		<type>pom</type>
+		<scope>import</scope>
+	  </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <finalName>App</finalName>
+	<resources>
+		<resource>
+			<directory>src/main/resources</directory>
+			<filtering>true</filtering>
+		</resource>
+	</resources>
+    <plugins>
+
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>3.1.8</version>
+				<configuration>
+					<sourceRoot>${project.build.directory}/generated-sources/</sourceRoot>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-sources-about</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>${basedir}/src/main/resources/META-INF/wsdl/AboutServiceEndpoint.wsdl</wsdl>
+									<wsdlLocation>WEB-INF/classes/META-INF/wsdl/AboutServiceEndpoint.wsdl</wsdlLocation>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>generate-sources-socio</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>${basedir}/src/main/resources/META-INF/wsdl/SocioServiceEndpoint.wsdl</wsdl>
+									<wsdlLocation>WEB-INF/classes/META-INF/wsdl/SocioServiceEndpoint.wsdl</wsdlLocation>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+			  <resources>
+                <resource>
+					<directory>src/main/frontend</directory>
+					<filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+       <plugin>
+           	<groupId>com.github.eirslett</groupId>
+           	<artifactId>frontend-maven-plugin</artifactId>
+           	<version>1.3</version>
+			<configuration>
+          	   		<installDirectory>${project.build.directory}</installDirectory>
+          	   		<workingDirectory>${project.build.directory}</workingDirectory>
+					<nodeVersion>v6.10.3</nodeVersion>
+              		<npmVersion>3.10.10</npmVersion>
+        	</configuration>
+           <executions>
+				<!-- Instalación de Node y NPM -->
+	           	<execution>
+	            	<id>install node and npm</id>
+	             	<goals>
+	                	<goal>install-node-and-npm</goal>
+	             	</goals>
+	             	<phase>initialize</phase>
+	            </execution>
+
+				<!-- Instalación de dependencias en package.json -->
+	            <execution>
+	               <id>npm install</id>
+	               <goals>
+	                   <goal>npm</goal>
+	               </goals>
+	               <phase>initialize</phase>
+	               <configuration>
+	                   <arguments>install</arguments>
+	               </configuration>
+	           </execution>
+
+				<!-- Instalación de Bower y dependencias -->
+		        <execution>
+		            <id>bower install</id>
+		            <goals>
+		                <goal>bower</goal>
+		            </goals>
+		            <configuration>
+	                	<arguments>install</arguments>
+		            </configuration>
+	         	</execution>
+
+				<!-- Frontend Tests -->
+				<execution>
+				    <id>javascript tests</id>
+				    <goals>
+				        <goal>karma</goal>
+				    </goals>
+
+				    <phase>test</phase>
+
+				    <configuration>
+				        <!-- optional: the default is "karma.conf.js" in your working directory -->
+				        <karmaConfPath>${project.build.directory}/karma.conf.ci.js</karmaConfPath>
+				    </configuration>
+				</execution>
+      		</executions>
+
+      </plugin>
+	  <!-- Plugins para Arquillian -->
+      <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
+      </plugin>
+	  <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.19.1</version>
+		<configuration>
+          <systemPropertyVariables>
+            <browser>${graphene.browser}</browser>
+			<webdriver.ie.driver>${webdriver.ie.driver}</webdriver.ie.driver>
+			<webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+		  </systemPropertyVariables>
+		</configuration>
+		<executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+	  <!-- Fin de plugins para Arquillian -->
+     </plugins>
+   </build>
+   <!-- Perfiles adicionales para Graphene -->
+	<profiles>
+		<profile>
+		   <id>firefox</id>
+		   <properties>
+			  <graphene.browser>firefox</graphene.browser>
+		   </properties>
+		</profile>
+		<profile>
+		   <id>chrome</id>
+		   <properties>
+			   <graphene.browser>chrome</graphene.browser>
+		   </properties>
+		</profile>
+		<profile>
+			<id>explorer</id>
+			<properties>
+				<graphene.browser>internetExplorer</graphene.browser>
+			</properties>
+		</profile>
+	</profiles>
+	<!-- Fin de Perfiles adicionales para Graphene -->
+</project>
